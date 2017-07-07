@@ -105,11 +105,16 @@ end
 
 -- [function] Get owners by pos
 function protplus:get_owners(pos)
-	local owners = {}
+	local added   = {}
+	local owners  = {}
 	local regions = protplus:is_protected(pos)
 	if regions then
 		for id, r in pairs(regions) do
-			owners[#owners + 1] = protplus:get_owner_by_id(id)
+			local owner = protplus:get_owner_by_id(id)
+			if not added[owner] then
+				owners[#owners + 1] = owner
+				added[owner] = true
+			end
 		end
 	end
 
@@ -482,7 +487,7 @@ end
 -- [event] Display message on protection violation
 minetest.register_on_protection_violation(function(pos, name)
 	if not protplus:can_interact(pos, name) then
-		local owners  = table.concat(protplus:get_owners(pos) or {}, ", ")
+		local owners = table.concat(protplus:get_owners(pos) or {}, ", ")
 
 		minetest.chat_send_player(name, minetest.colorize("red",
 				("%s is protected by %s"):format(
