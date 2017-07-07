@@ -500,7 +500,6 @@ minetest.register_on_player_hpchange(function(player, hp_change)
 	local pos = vector.round(player:get_pos())
 	local regions = protplus:is_protected(pos) or {}
 	for _, r in pairs(regions) do
-		minetest.log(dump(r.flags))
 		if r.flags and r.flags.damage == false then
 			return 0
 		end
@@ -590,6 +589,7 @@ minetest.register_entity("protplus:pos2", {
 
 dofile(modpath.."/chat.lua")
 dofile(modpath.."/wand.lua")
+dofile(modpath.."/hud.lua")
 
 -- Load protected regions
 protplus:load()
