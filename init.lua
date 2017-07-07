@@ -538,5 +538,7 @@ minetest.register_entity("protplus:pos2", {
 --- Load Resources
 ---
 
+dofile(modpath.."/chat.lua")
+
 -- Load protected regions
 protplus:load()
