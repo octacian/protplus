@@ -83,6 +83,17 @@ There are several global variables accessible via the `protplus` namespace. Thes
 * `name`: Name of player
 * `pos1`, `pos2`: Positional vector
 
+`protplus:get_flags(id, format)`
+* Returns `table` of region flag
+* Table: `{damage = BOOL}`
+* `id`: Region ID (numerical)
+* `format`: `true` causes table entries to be formatted as a string suitable for chat (e.g. `"damage = true"`)
+
+`protplus:set_flags(id, new_flags)`
+* Returns `true` if flags are updated
+* Does not overwrite flags entirely, but only those provided in the `new_flags` table
+* `new_flags`: Table of new flag values
+
 `protplus:add(owner, name, pos1, pos2)`
 * Returns `number` indicating the ID of the protected region or `nil`
 * `owner`: Name of owning player

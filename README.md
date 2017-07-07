@@ -3,7 +3,9 @@ Protection Plus [protplus]
 
 ProtPlus isn't just "Yet Another Protection Mod", instead, it is the most featured protection mod to date. With the combination of chatcommand-based protection as is seen in ShadowNinja's [areas](https://forum.minetest.net/viewtopic.php?t=7239), protection blocks as seen in TenPlus1's [protector](https://github.com/tenplus1/protector), and per-chunk claims as seen in [landrush](https://forum.minetest.net/viewtopic.php?id=4799), ProtPlus offers everything you could need from a protection mod. **Note:** The latter two features are still in progress.
 
-ProtPlus has an advanced API including overlap checking, renaming, member and owner management, and more. These API features can be accessed via the protection blocks (WIP), chatcommands, and partially via the WorldEdit-like wand
+ProtPlus has an advanced API including overlap checking, renaming, member and owner management, and more. These API features can be accessed via the protection blocks (WIP), chatcommands, and partially via the WorldEdit-like wand.
+
+Protected regions also allow setting flags, which can change other game variables such as preventing damage or showing an HUD in the top-left corner of the screen. These flags can be managed via the `/protflags` chatcommand. Valid flags include `damage` (boolean).
 
 To learn about the API, read API.md.
 
@@ -21,6 +23,7 @@ ProtPlus introduces many chatcommands in order to manage protected regions. The 
 * `protshow`: Highlight protected region
 * `protowner`: Get or change the owner of a region
 * `protmember`: Get or change the member list of a region
+* `protflags`: Get or set flags for a protected area
 
 Authors of media (textures, models, and sounds)
 -----------------------------------------------

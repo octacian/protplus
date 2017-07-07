@@ -265,6 +265,37 @@ function protplus:can_protect(name, pos1, pos2)
 	return true
 end
 
+-- [function] Get flags
+function protplus:get_flags(id, format)
+	if self.regions[id] then
+		if format then
+			local ret   = {}
+			local flags = self.regions[id].flags or {}
+			for name, f in pairs(flags) do
+				ret[#ret + 1] = name.." = "..tostring(f)
+			end
+
+			if #ret > 0 then
+				return ret
+			end
+		else
+			return self.regions[id].flags or {}
+		end
+	end
+end
+
+-- [function] Set flags
+function protplus:set_flags(id, new_flags)
+	if self.regions[id] then
+		local flags = self.regions[id].flags or {}
+		for _, f in pairs(new_flags) do
+			flags[_] = f
+		end
+		self.regions[id].flags = flags
+		return true
+	end
+end
+
 -- [function] Protect region
 function protplus:add(owner, name, pos1, pos2)
 	local id = #self.regions + 1
@@ -272,6 +303,7 @@ function protplus:add(owner, name, pos1, pos2)
 		name = name,
 		owner = owner,
 		members = {},
+		flags = {},
 		pos1 = pos1,
 		pos2 = pos2,
 	}
@@ -458,6 +490,24 @@ minetest.register_on_protection_violation(function(pos, name)
 		)))
 	end
 end)
+
+-- [event] On HP change
+minetest.register_on_player_hpchange(function(player, hp_change)
+	if hp_change > 0 then
+		return hp_change
+	end
+
+	local pos = vector.round(player:get_pos())
+	local regions = protplus:is_protected(pos) or {}
+	for _, r in pairs(regions) do
+		minetest.log(dump(r.flags))
+		if r.flags and r.flags.damage == false then
+			return 0
+		end
+	end
+
+	return hp_change
+end, true)
 
 -- [event] Save protected regions on shutdown
 minetest.register_on_shutdown(function()

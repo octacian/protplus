@@ -308,3 +308,62 @@ minetest.register_chatcommand("protmember", {
 		end
 	end,
 })
+
+-- [chatcommand] /protflags
+minetest.register_chatcommand("protflags", {
+	description = "Get/set flags for a protected region",
+	params = "[<region id>] [get | list | set | del] (<flag name>) (<flag value>)",
+	privs = {protplus = true},
+	func = function(name, params)
+		local split = params:split(" ")
+		local invalid_msg = "Invalid parameters (see /help protflags)"
+		local id, operation, flag, value = tonumber(split[1]), split[2], split[3], split[4]
+
+		if id and protplus:get_region(id) and operation then
+			local flags = protplus:get_flags(id)
+			if operation == "get" and flag then
+				if flags[flag] then
+					return true, "Flag \""..flag.."\" is set to "..tostring(flags[flag])
+				else
+					return false, "Invalid flag \""..flag.."\""
+				end
+			elseif operation == "list" then
+				flags = protplus:get_flags(id, true)
+				if flags then
+					return true, "Flags: "..table.concat(flags, ", ")
+				else
+					return false, "No flags set"
+				end
+			elseif operation == "set" and flag and value then
+				if value == "true" then
+					value = true
+				elseif value == "false" then
+					value = false
+				end
+
+				local new_flags = {}
+				new_flags[flag] = value
+				if protplus:set_flags(id, new_flags) then
+					return true, "Set flag \""..flag.."\" to \""..tostring(value).."\""
+				else
+					return false, "Could not update flag"
+				end
+			elseif operation == "del" and flag then
+				if flags[flag] ~= nil then
+					flags[flag] = nil
+					if protplus:set_flags(id, flags) then
+						return true, "Deleted flag \""..flag.."\""
+					else
+						return false, "Could not delete flag"
+					end
+				else
+					return false, "Invalid flag \""..flag.."\""
+				end
+			else
+				return false, invalid_msg
+			end
+		else
+			return false, invalid_msg
+		end
+	end,
+})
