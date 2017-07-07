@@ -539,6 +539,7 @@ minetest.register_entity("protplus:pos2", {
 ---
 
 dofile(modpath.."/chat.lua")
+dofile(modpath.."/wand.lua")
 
 -- Load protected regions
 protplus:load()

@@ -31,3 +31,4 @@ Mod: WorldEdit (?):
 * `protplus_border.png`
 * `protplus_pos1.png`
 * `protplus_pos2.png`
+* `protplus_wand.png`
