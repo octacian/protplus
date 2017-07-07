@@ -352,7 +352,7 @@ end
 -- [function] Add member
 function protplus:add_member(id, member)
 	if self.regions[id] then
-		self.regions[id].members[#self.regions[id].members] = member
+		self.regions[id].members[#self.regions[id].members + 1] = member
 		return true
 	end
 end
@@ -364,6 +364,7 @@ function protplus:remove_member(id, member)
 		for _, i in pairs(members) do
 			if i == member then
 				members[_] = nil
+				self.regions[id].members = members
 				return true
 			end
 		end
