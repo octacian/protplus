@@ -22,6 +22,7 @@ function protplus:sort_pos(pos1, pos2)
 		return
 	end
 
+	pos1, pos2 = table.copy(pos1), table.copy(pos2)
 	if pos1.x > pos2.x then
 		pos2.x, pos1.x = pos1.x, pos2.x
 	end
