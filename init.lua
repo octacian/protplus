@@ -52,11 +52,11 @@ function protplus:load()
 	local res = io.open(path, "r")
 	if res then
 		self.regions = minetest.deserialize(res:read("*a"))
-		if type(self.regions) ~= "table" then
-			self.regions = {}
-		end
-
 		res:close()
+	end
+
+	if type(self.regions) ~= "table" then
+		self.regions = {}
 	end
 end
 
