@@ -25,6 +25,15 @@ ProtPlus introduces many chatcommands in order to manage protected regions. The 
 * `protmember`: Get or change the member list of a region
 * `protflags`: Get or set flags for a protected area
 
+Configuration
+-------------
+
+Most timers and other variables used in ProtPlus can be configured directly from the advanced settings menu in the protplus subsection of the top-level Mods section. You can also configure ProtPlus directly from `minetest.conf` with the settings listed below.
+
+| Name                    | Type  | Default | Description                       |
+| ----------------------- | ----- | ------- | --------------------------------- |
+| protplus.display_remove | float | 60      | Time to live for display entities |
+
 Authors of media (textures, models, and sounds)
 -----------------------------------------------
 Everything not listed in here:

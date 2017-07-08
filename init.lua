@@ -10,6 +10,9 @@ protplus.mark2   = {}
 protplus.mpos1   = {}
 protplus.mpos2   = {}
 
+-- Settings
+local display_remove_after = tonumber(minetest.settings:get("protplus.display_remove")) or 60
+
 ---
 --- Functions
 ---
@@ -529,6 +532,11 @@ minetest.register_on_shutdown(function()
 	protplus:save()
 end)
 
+-- [event] Remove entities on leaveplayer
+minetest.register_on_leaveplayer(function(player)
+	protplus:unmark(player:get_player_name(), true, true, true)
+end)
+
 -- [entity] Display
 minetest.register_entity("protplus:display", {
 	initial_properties = {
@@ -538,16 +546,24 @@ minetest.register_entity("protplus:display", {
 		visual_size = {x=10, y=10},
 		physical = false,
 	},
+	age = 0,
 	on_step = function(self, dtime)
+		self.age = self.age + dtime
+
 		local name = self.player_name
-		if not name then
+		if not name or self.age >= display_remove_after then
 			self.object:remove()
 		elseif not protplus.markers[name] then
 			protplus:unmark(name, true, true, true)
 		end
 	end,
 	on_punch = function(self, hitter)
-		protplus:unmark(self.player_name, true, true, true)
+		if hitter:get_player_name() == self.player_name then
+			protplus:unmark(self.player_name, true, true, true)
+		end
+	end,
+	on_activate = function(self)
+		self.object:set_armor_groups({immortal = 1})
 	end,
 })
 
@@ -562,16 +578,24 @@ minetest.register_entity("protplus:pos1", {
 		collisionbox = {-0.55, -0.55, -0.55, 0.55, 0.55, 0.55},
 		physical = false,
 	},
+	age = 0,
 	on_step = function(self, dtime)
+		self.age = self.age + dtime
+
 		local name = self.player_name
-		if not name then
+		if not name or self.age >= display_remove_after then
 			self.object:remove()
 		elseif not protplus.mark1[name] then
 			protplus:unmark(name, true, nil, true)
 		end
 	end,
 	on_punch = function(self, hitter)
-		protplus:unmark(self.player_name, true, nil, true)
+		if hitter:get_player_name() == self.player_name then
+			protplus:unmark(self.player_name, true, nil, true)
+		end
+	end,
+	on_activate = function(self)
+		self.object:set_armor_groups({immortal = 1})
 	end,
 })
 
@@ -586,16 +610,24 @@ minetest.register_entity("protplus:pos2", {
 		collisionbox = {-0.55, -0.55, -0.55, 0.55, 0.55, 0.55},
 		physical = false,
 	},
+	age = 0,
 	on_step = function(self, dtime)
+		self.age = self.age + dtime
+
 		local name = self.player_name
-		if not name then
+		if not name or self.age >= display_remove_after then
 			self.object:remove()
 		elseif not protplus.mark2[name] then
 			protplus:unmark(name, nil, true, true)
 		end
 	end,
 	on_punch = function(self, hitter)
-		protplus:unmark(self.player_name, nil, true, true)
+		if hitter:get_player_name() == self.player_name then
+			protplus:unmark(self.player_name, nil, true, true)
+		end
+	end,
+	on_activate = function(self)
+		self.object:set_armor_groups({immortal = 1})
 	end,
 })
 
