@@ -14,6 +14,15 @@ protplus.mpos2   = {}
 --- Functions
 ---
 
+-- [local function] Count
+local function count(t)
+	local count = 0
+	for _, i in pairs(t) do
+		count = count + 1
+	end
+	return count
+end
+
 --- Copies and modifies positions `pos1` and `pos2` so that each component of
 -- `pos1` is less than or equal to the corresponding component of `pos2`.
 -- Returns the new positions.
@@ -83,7 +92,7 @@ function protplus:is_protected(pos)
 		end
 	end
 
-	if #retval ~= 0 then
+	if count(retval) ~= 0 then
 		return retval
 	end
 end
@@ -98,7 +107,7 @@ end
 -- [function] Get members by id
 function protplus:get_members_by_id(id)
 	if self.regions[id] then
-		if #self.regions[id].members > 0 then
+		if count(self.regions[id].members) > 0 then
 			return self.regions[id].members
 		end
 	end
@@ -113,13 +122,13 @@ function protplus:get_owners(pos)
 		for id, r in pairs(regions) do
 			local owner = protplus:get_owner_by_id(id)
 			if not added[owner] then
-				owners[#owners + 1] = owner
+				owners[count(owners) + 1] = owner
 				added[owner] = true
 			end
 		end
 	end
 
-	if #owners > 0 then
+	if count(owners) > 0 then
 		return owners
 	end
 end
@@ -133,13 +142,13 @@ function protplus:get_members(pos)
 			local amembers = protplus:get_members_by_id(id)
 			if amembers then
 				for __, m in pairs(amembers) do
-					members[#members + 1] = m
+					members[count(members) + 1] = m
 				end
 			end
 		end
 	end
 
-	if #members > 0 then
+	if count(members) > 0 then
 		return members
 	end
 end
@@ -210,23 +219,23 @@ function protplus:get_player_regions(name, format)
 	for id, r in pairs(self.regions) do
 		if protplus:is_owner(id, name) then
 			if format then
-				owned[#owned + 1] = r.name.." ["..tostring(id).."]"
+				owned[count(owned) + 1] = r.name.." ["..tostring(id).."]"
 			else
 				owned[id] = r
 			end
 		elseif protplus:is_member(id, name) then
 			if format then
-				member[#member + 1] = r.name.." ["..tostring(id).."]"
+				member[count(member) + 1] = r.name.." ["..tostring(id).."]"
 			else
 				member[id] = r
 			end
 		end
 	end
 
-	if #owned == 0 then
+	if count(owned) == 0 then
 		owned = nil
 	end
-	if #member == 0 then
+	if count(member) == 0 then
 		member = nil
 	end
 
@@ -235,7 +244,6 @@ end
 
 -- [function] Get intersecting
 function protplus:get_intersect(pos1, pos2)
-	pos1, pos2 = protplus:sort_pos(pos1, pos2)
 	local res = {}
 	local p1x, p1y, p1z = pos1.x, pos1.y, pos1.z
 	local p2x, p2y, p2z = pos2.x, pos2.y, pos2.z
@@ -248,7 +256,7 @@ function protplus:get_intersect(pos1, pos2)
 		end
 	end
 
-	if #res > 0 then
+	if count(res) > 0 then
 		return res
 	end
 end
@@ -278,10 +286,10 @@ function protplus:get_flags(id, format)
 			local ret   = {}
 			local flags = self.regions[id].flags or {}
 			for name, f in pairs(flags) do
-				ret[#ret + 1] = name.." = "..tostring(f)
+				ret[count(ret) + 1] = name.." = "..tostring(f)
 			end
 
-			if #ret > 0 then
+			if count(ret) > 0 then
 				return ret
 			end
 		else
@@ -304,7 +312,8 @@ end
 
 -- [function] Protect region
 function protplus:add(owner, name, pos1, pos2)
-	local id = #self.regions + 1
+	local id = count(self.regions) + 1
+	pos1, pos2 = protplus:sort_pos(pos1, pos2)
 	self.regions[id] = {
 		name = name,
 		owner = owner,
@@ -353,7 +362,7 @@ end
 -- [function] Add member
 function protplus:add_member(id, member)
 	if self.regions[id] then
-		self.regions[id].members[#self.regions[id].members + 1] = member
+		self.regions[id].members[count(self.regions[id].members) + 1] = member
 		return true
 	end
 end
