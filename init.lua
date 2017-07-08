@@ -203,7 +203,7 @@ function protplus:can_interact(pos, name)
 	local regions = protplus:is_protected(pos)
 	if regions then
 		for id, r in pairs(regions) do
-			if protplus:can_modify(id, name) then
+			if protplus:can_modify(id, name) or r.flags and r.flags.open == true then
 				return true
 			end
 		end

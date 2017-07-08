@@ -5,7 +5,7 @@ ProtPlus isn't just "Yet Another Protection Mod", instead, it is the most featur
 
 ProtPlus has an advanced API including overlap checking, renaming, member and owner management, and more. These API features can be accessed via the protection blocks (WIP), chatcommands, and partially via the WorldEdit-like wand.
 
-Protected regions also allow setting flags, which can change other game variables such as preventing damage or showing an HUD in the bottom-right corner of the screen. These flags can be managed via the `/protflags` chatcommand. Valid flags can be accessed via `/protflags help` and `protflags help <flag>`.
+Protected regions also allow setting flags, which can change other game variables such as preventing damage or showing an HUD in the bottom-right corner of the screen. You can even temporarily remove protection from a region using the `open` flag, without having to actually remove the region itself. These flags can be managed via the `/protflags` chatcommand. Valid flags can be accessed via `/protflags help` and `protflags help <flag>`.
 
 To learn about the API, read API.md.
 

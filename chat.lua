@@ -367,8 +367,10 @@ minetest.register_chatcommand("protflags", {
 				return true, "damage (type: boolean) - toggle damage in region"
 			elseif split[2] == "hud" then
 				return true, "hud (type: boolean) - toggle HUD in region"
+			elseif split[2] == "open" then
+				return true, "open (type: boolean) - temporarily disable protection without removing region"
 			else
-				return true, "Valid Flags: damage (boolean), hud (boolean)"
+				return true, "Valid Flags: damage (boolean), hud (boolean), open (boolean)"
 			end
 		else
 			return false, invalid_msg
