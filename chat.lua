@@ -312,7 +312,7 @@ minetest.register_chatcommand("protmember", {
 -- [chatcommand] /protflags
 minetest.register_chatcommand("protflags", {
 	description = "Get/set flags for a protected region",
-	params = "[<region id>] [get | list | set | del] (<flag name>) (<flag value>)",
+	params = "[<region id> | help] [get | list | set | del | <flag name>] (<flag name>) (<flag value>)",
 	privs = {protplus = true},
 	func = function(name, params)
 		local split = params:split(" ")
@@ -361,6 +361,14 @@ minetest.register_chatcommand("protflags", {
 				end
 			else
 				return false, invalid_msg
+			end
+		elseif split[1] and split[1] == "help" then
+			if split[2] == "damage" then
+				return true, "damage (type: boolean) - toggle damage in region"
+			elseif split[2] == "hud" then
+				return true, "hud (type: boolean) - toggle HUD in region"
+			else
+				return true, "Valid Flags: damage (boolean), hud (boolean)"
 			end
 		else
 			return false, invalid_msg
